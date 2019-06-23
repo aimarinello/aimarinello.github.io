@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TALCA</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+		<link rel="stylesheet" href="css/MarkerCluster.css" />
+		<link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+		<link rel="stylesheet" type="text/css" href="css/own_style.css">
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+		<script src="js/leaflet-hash.js"></script>
+		<script src="js/Autolinker.min.js"></script>
+		<script src="js/leaflet.markercluster.js"></script>
+		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/full.css" rel="stylesheet">
+
+	</head>
+	<body>
+	<script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Atlas escolar de la ciudad de Talca</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href=index.html>Inicio
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Proyecto</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href=Colaboracion.html>Colabora</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contacto</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+		
+		
+		
+		
+		
+		<div id="map"></div>
+	
+		
+		<script src="data/exp_puntos.js"></script>
+		<script src="data/exp_1904.js"></script>
+		<script src="data/exp_1929.js"></script>
+		<script src="data/exp_Callesf.js"></script>
+		<script>
+			
+			
+			
+		var map = L.map('map', {
+			zoomControl:true, maxZoom:19
+		}).fitBounds([[-35.4353581007,-71.6882638041],[-35.4108742192,-71.6310423565]]);
+		var hash = new L.Hash(map);
+		var additional_attrib = 'created w. <a href="https://github.com/geolicious/qgis2leaf" target ="_blank">qgis2leaf</a> by <a href="http://www.geolicious.de" target ="_blank">Geolicious</a> & contributors<br>';
+		var feature_group = new L.featureGroup([]);
+		var raster_group = new L.LayerGroup([]);
+		var basemap_0 = L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', { 
+			attribution: additional_attrib + '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+		});	
+		basemap_0.addTo(map);
+			
+		var layerOrder=new Array();
+		function pop_Callesf(feature, layer) {					
+			var popupContent = '<table><tr><th scope="row">id</th><td>' + Autolinker.link(String(feature.properties['id'])) + '</td></tr></table>';
+			layer.bindPopup(popupContent);
+		}
+
+		function doStyleCallesf(feature) {
+				return {
+					weight: 1.3,
+					color: '#777ee0',
+					dashArray: '',
+					opacity: 1.0,
+					fillOpacity: 1.0
+				};
+		}
+		var exp_CallesfJSON = new L.geoJson(exp_Callesf,{
+			onEachFeature: pop_Callesf,
+			style: doStyleCallesf
+		});
+		layerOrder[layerOrder.length] = exp_CallesfJSON;
+		for (index = 0; index < layerOrder.length; index++) {
+			feature_group.removeLayer(layerOrder[index]);feature_group.addLayer(layerOrder[index]);
+		}
+		//add comment sign to hide this layer on the map in the initial view.
+		feature_group.addLayer(exp_CallesfJSON);
+		function pop_1929(feature, layer) {					
+			var popupContent = '<table><tr><th scope="row">id</th><td>' + Autolinker.link(String(feature.properties['id'])) + '</td></tr><tr><th scope="row">Fecha</th><td>' + Autolinker.link(String(feature.properties['Fecha'])) + '</td></tr></table>';
+			layer.bindPopup(popupContent);
+		}
+
+		function doStyle1929(feature) {
+				return {
+					color: '#000000',
+					fillColor: '#ffd101',
+					weight: 1.3,
+					dashArray: '',
+					opacity: 0.51,
+					fillOpacity: 0.51
+				};
+
+		}
+		var exp_1929JSON = new L.geoJson(exp_1929,{
+			onEachFeature: pop_1929,
+			style: doStyle1929
+		});
+		layerOrder[layerOrder.length] = exp_1929JSON;
+		for (index = 0; index < layerOrder.length; index++) {
+			feature_group.removeLayer(layerOrder[index]);feature_group.addLayer(layerOrder[index]);
+		}
+		//add comment sign to hide this layer on the map in the initial view.
+		feature_group.addLayer(exp_1929JSON);
+		function pop_1904(feature, layer) {					
+			var popupContent = '<table><tr><th scope="row">id</th><td>' + Autolinker.link(String(feature.properties['id'])) + '</td></tr><tr><th scope="row">Fecha</th><td>' + Autolinker.link(String(feature.properties['Fecha'])) + '</td></tr></table>';
+			layer.bindPopup(popupContent);
+		}
+
+		function doStyle1904(feature) {
+				return {
+					color: '#000000',
+					fillColor: '#f5b127',
+					weight: 1.3,
+					dashArray: '',
+					opacity: 0.34,
+					fillOpacity: 0.34
+				};
+
+		}
+		var exp_1904JSON = new L.geoJson(exp_1904,{
+			onEachFeature: pop_1904,
+			style: doStyle1904
+		});
+		layerOrder[layerOrder.length] = exp_1904JSON;
+		for (index = 0; index < layerOrder.length; index++) {
+			feature_group.removeLayer(layerOrder[index]);feature_group.addLayer(layerOrder[index]);
+		}
+		//add comment sign to hide this layer on the map in the initial view.
+		feature_group.addLayer(exp_1904JSON);
+		function pop_puntos(feature, layer) {					
+			var popupContent = feature.properties.html_exp;
+			layer.bindPopup(popupContent);
+		}
+
+		var exp_puntosJSON = new L.geoJson(exp_puntos,{
+			onEachFeature: pop_puntos,
+			pointToLayer: function (feature, latlng) {  
+				return L.circleMarker(latlng, {
+					radius: 4.0,
+					fillColor: '#16bc8d',
+					color: '#000000',
+					weight: 1,
+					opacity: 1.0,
+					fillOpacity: 1.0
+				})
+			}
+		});
+		var cluster_grouppuntosJSON= new L.MarkerClusterGroup({showCoverageOnHover: false});
+		cluster_grouppuntosJSON.addLayer(exp_puntosJSON);
+		//add comment sign to hide this layer on the map in the initial view.
+		cluster_grouppuntosJSON.addTo(map);
+
+		feature_group.addTo(map);
+		
+				
+		
+	var baseMaps = {
+		'OSM Black & White': basemap_0
+	};
+		L.control.layers(baseMaps,{"puntos": cluster_grouppuntosJSON,"1904": exp_1904JSON,"1929": exp_1929JSON,"Callesf": exp_CallesfJSON},{collapsed:false}).addTo(map);
+		L.control.scale({options: {position: 'bottomleft',maxWidth: 100,metric: true,imperial: false,updateWhenIdle: false}}).addTo(map);
+		
+		
+		
+		
+		
+	
+	</script>
+</body>
+</html>
