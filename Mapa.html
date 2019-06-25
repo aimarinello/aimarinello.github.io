@@ -68,11 +68,11 @@
 			zoomControl:true, maxZoom:19
 		}).fitBounds([[-35.4353581007,-71.6882638041],[-35.4108742192,-71.6310423565]]);
 		var hash = new L.Hash(map);
-		var additional_attrib = 'created w. <a href="https://github.com/geolicious/qgis2leaf" target ="_blank">qgis2leaf</a> by <a href="http://www.geolicious.de" target ="_blank">Geolicious</a> & contributors<br>';
+		var additional_attrib = 'created w. <a href="https://github.com/geolicious/qgis2leaf" target ="_blank">qgis2leaf</a> by <a href="https://www.geolicious.de" target ="_blank">Geolicious</a> & contributors<br>';
 		var feature_group = new L.featureGroup([]);
 		var raster_group = new L.LayerGroup([]);
 		var basemap_0 = L.tileLayer('https://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', { 
-			attribution: additional_attrib + '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+			attribution: additional_attrib + '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors,<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
 		});	
 		basemap_0.addTo(map);
 			
